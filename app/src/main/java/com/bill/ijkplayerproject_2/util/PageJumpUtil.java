@@ -13,7 +13,7 @@ public class PageJumpUtil {
         activity.startActivity(intent);
     }
 
-    public static void gotoVedioTestActivity(Activity activity) {
+    public static void gotoVideoTestActivity(Activity activity) {
         Intent intent = new Intent(activity, VideoTestActivity.class);
         activity.startActivity(intent);
     }
