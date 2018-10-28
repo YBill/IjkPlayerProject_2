@@ -10,6 +10,7 @@ import tv.danmaku.ijk.media.player.IjkMediaPlayer;
 
 public class VideoTestActivity extends AppCompatActivity {
 
+    private boolean mBackPressed;
     private IjkVideoView mVideoView;
 
     @Override
@@ -25,12 +26,22 @@ public class VideoTestActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
+    public void onBackPressed() {
+        mBackPressed = true;
+        super.onBackPressed();
+    }
 
-        if (mVideoView != null) {
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (mBackPressed || !mVideoView.isBackgroundPlayEnabled()) {
             mVideoView.stopPlayback();
             mVideoView.release(true);
+            mVideoView.stopBackgroundPlay();
+        } else {
+            mVideoView.enterBackground();
         }
+        IjkMediaPlayer.native_profileEnd();
     }
+
 }

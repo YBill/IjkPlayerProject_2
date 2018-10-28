@@ -20,7 +20,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".test.AudioTestActivity" />
-        <activity android:name=".test.VideoTestActivity"></activity>
+        <activity android:name=".test.VideoTestActivity" />
+        <activity android:name=".test.VideoSettingActivity" />
     </application>
 
 </manifest>
