@@ -1012,6 +1012,12 @@ public class IjkVideoView extends FrameLayout implements MediaController.MediaPl
         MediaPlayerService.setMediaPlayer(null);
     }
 
+
+    //-------------------------
+    // 下面是音视频轨道的获取和切换
+    //-------------------------
+
+
     public ITrackInfo[] getTrackInfo() {
         if (mMediaPlayer == null)
             return null;
