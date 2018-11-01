@@ -21,4 +21,8 @@ public class MainActivity extends AppCompatActivity {
     public void handleVideoTest(View view) {
         PageJumpUtil.gotoVideoSettingActivity(this);
     }
+
+    public void handleVideoList(View view) {
+        PageJumpUtil.gotoVideoListActivity(this);
+    }
 }

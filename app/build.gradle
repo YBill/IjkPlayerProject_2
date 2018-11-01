@@ -21,7 +21,10 @@ android {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support:appcompat-v7:26.1.0'
+    implementation 'com.android.support:recyclerview-v7:26.1.0'
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     implementation project(':ijkplayer-java')
     implementation project(':ijkplayer-exo')
+
+    implementation 'com.bill.commonwidget:commonwidget:1.0.0'
 }
