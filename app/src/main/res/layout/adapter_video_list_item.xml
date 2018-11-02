@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <FrameLayout
+    <com.bill.commonwidget.AutoScaleFrameLayout
         android:id="@+id/fl_video_group"
         android:layout_width="match_parent"
-        android:layout_height="200dp">
+        android:layout_height="wrap_content"
+        app:height_relative_width_aspect_ratio="0.5625">
 
         <ImageView
             android:id="@+id/iv_video_bg"
@@ -42,7 +44,7 @@
             android:layout_gravity="center"
             android:src="@drawable/icon_play" />
 
-    </FrameLayout>
+    </com.bill.commonwidget.AutoScaleFrameLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"

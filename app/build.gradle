@@ -26,5 +26,5 @@ dependencies {
     implementation project(':ijkplayer-java')
     implementation project(':ijkplayer-exo')
 
-    implementation 'com.bill.commonwidget:commonwidget:1.0.0'
+    implementation 'com.bill.commonwidget:commonwidget:1.0.1'
 }
