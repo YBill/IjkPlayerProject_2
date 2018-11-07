@@ -21,7 +21,8 @@ public class VideoTestActivity extends AppCompatActivity {
 
         IjkMediaPlayer.loadLibrariesOnce(null);
         IjkMediaPlayer.native_profileBegin("libijkplayer.so");
-        mVideoView.setVideoPath("https://9890.vod.myqcloud.com/9890_4e292f9a3dd011e6b4078980237cc3d3.f30.mp4");
+//        mVideoView.setVideoPath("https://9890.vod.myqcloud.com/9890_4e292f9a3dd011e6b4078980237cc3d3.f30.mp4");
+        mVideoView.setVideoPath("https://imedia-peoplesdaily.pdnews.cn/up/cms/www/201811/061606450mgl.mp4");
         mVideoView.start();
     }
 
