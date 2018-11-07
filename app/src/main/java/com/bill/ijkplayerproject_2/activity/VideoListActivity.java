@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 
 import com.bill.ijkplayerproject_2.R;
 import com.bill.ijkplayerproject_2.adapter.VideoListAdapter;
@@ -62,6 +63,12 @@ public class VideoListActivity extends AppCompatActivity {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
                 RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
                 LinearLayoutManager linearManager = (LinearLayoutManager) layoutManager;
                 //获取最后一个可见view的位置
@@ -70,6 +77,8 @@ public class VideoListActivity extends AppCompatActivity {
                 int firstItemPosition = linearManager.findFirstVisibleItemPosition();
                 //获取可见view的总数
                 int itemCount = linearManager.getChildCount();
+
+                Log.e("Bill", itemCount + "|" + firstItemPosition + "|" + lastItemPosition);
 
                 if (firstItemPosition > 0) {
                     VideoListBean firstBean = videoList.get(firstItemPosition - 1);
@@ -86,11 +95,6 @@ public class VideoListActivity extends AppCompatActivity {
                     }
                 }
 
-            }
-
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
             }
         });
     }
