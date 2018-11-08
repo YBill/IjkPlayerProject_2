@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.bill.ijkplayerproject_2.R;
 import com.bill.ijkplayerproject_2.bean.VideoListBean;
 import com.bill.ijkplayerproject_2.ijk.widget.media.IjkVideoView;
+import com.bill.ijkplayerproject_2.manager.VideoViewManager;
 
 import java.util.List;
 
@@ -41,21 +42,6 @@ public class VideoListAdapter extends RecyclerView.Adapter {
     @Override
     public int getItemCount() {
         return videoList.size();
-    }
-
-    private IjkVideoView ijkVideoView;
-
-    public IjkVideoView getVideoView() {
-        if (ijkVideoView == null) {
-            ijkVideoView = new IjkVideoView(activity);
-        } else {
-            ViewParent viewParent = ijkVideoView.getParent();
-            if (viewParent instanceof FrameLayout) {
-                FrameLayout frameLayout = (FrameLayout) viewParent;
-                frameLayout.removeAllViews();
-            }
-        }
-        return ijkVideoView;
     }
 
     public class VideoItemViewHolder extends RecyclerView.ViewHolder {
@@ -98,22 +84,29 @@ public class VideoListAdapter extends RecyclerView.Adapter {
                     } else {
                         // 播放当前，且将之前播放停止
                         Log.e("Bill", "当前没有播放");
-                        for (int i = 0; i < videoList.size(); i++) {
-                            VideoListBean bean = videoList.get(i);
-                            if (bean.playStatus > 0) {
-                                bean.playStatus = 0;
-                                break;
-                            }
+
+                        if (itemView.getTag() != null) {
+                            // // 重置上次播放状态
+                            int prevPlayPosition = (int) itemView.getTag();
+                            VideoListBean bean = videoList.get(prevPlayPosition);
+                            bean.playStatus = 0;
+                        }
+                        itemView.setTag(position); // 记录上一个播放的position
+                        videoListBean.playStatus = 1; // 修改当前播放状态
+
+                        VideoViewManager manager = VideoViewManager.getInstance();
+                        IjkVideoView ijkVideoView = manager.getVideoView();
+                        ViewParent viewParent = ijkVideoView.getParent();
+                        if (viewParent instanceof FrameLayout) {
+                            // IjkVideoView绑定在之前的item上了，解绑并释放播放器
+                            FrameLayout frameLayout = (FrameLayout) viewParent;
+                            frameLayout.removeAllViews();
+
+                            manager.stop();
                         }
 
-                        videoListBean.playStatus = 1;
-
-                        IjkVideoView ijkVideoView = getVideoView();
-                        ijkVideoView.stopPlayback();
-                        ijkVideoView.release(true);
                         playerViewGroup.addView(ijkVideoView);
-                        ijkVideoView.setVideoPath("https://rmrbtest-image.peopleapp.com/upload/video/201809/1537349021125fcfb438615c1b.mp4");
-                        ijkVideoView.start();
+                        manager.play("https://rmrbtest-image.peopleapp.com/upload/video/201809/1537349021125fcfb438615c1b.mp4");
                     }
                 }
             });

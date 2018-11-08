@@ -4,12 +4,15 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+import android.view.View;
+import android.view.ViewParent;
+import android.widget.FrameLayout;
 
 import com.bill.ijkplayerproject_2.R;
 import com.bill.ijkplayerproject_2.adapter.VideoListAdapter;
 import com.bill.ijkplayerproject_2.bean.VideoListBean;
 import com.bill.ijkplayerproject_2.ijk.widget.media.IjkVideoView;
+import com.bill.ijkplayerproject_2.manager.VideoViewManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,7 +62,14 @@ public class VideoListActivity extends AppCompatActivity {
     }
 
     private void addListener() {
+        // 滑动监听
         rvVideoList.addOnScrollListener(new RecyclerView.OnScrollListener() {
+
+            private int prevFirstItemPosition; // 记录上一次第一个可见item的position
+            private int prevLastItemPosition; // 记录上一次最后一个可见item的position
+            private View prevFistView; // 记录上一次第一个可见item的View
+            private View prevLastView; // 记录上一次最后一个可见item的View
+
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
@@ -78,32 +88,42 @@ public class VideoListActivity extends AppCompatActivity {
                 //获取可见view的总数
                 int itemCount = linearManager.getChildCount();
 
-                Log.e("Bill", itemCount + "|" + firstItemPosition + "|" + lastItemPosition);
+//                Log.e("Bill", itemCount + "|" + firstItemPosition + "|" + lastItemPosition);
 
-                if (firstItemPosition > 0) {
-                    VideoListBean firstBean = videoList.get(firstItemPosition - 1);
+                if (prevFirstItemPosition < firstItemPosition) {
+                    // Item向上滑出屏幕了，滑出的Item的position为prevFirstItemPosition，滑出的Item的View为prevFistView
+
+                    VideoListBean firstBean = videoList.get(prevFirstItemPosition);
                     if (firstBean.playStatus > 0) {
                         firstBean.playStatus = 0;
                         release();
                     }
-                }
-                if (lastItemPosition < videoList.size() - 1) {
-                    VideoListBean lastBean = videoList.get(lastItemPosition + 1);
+                } else if (prevLastItemPosition > lastItemPosition) {
+                    // Item向下滑出屏幕了，滑出的Item的position为prevLastItemPosition，滑出的Item的View为prevLastView
+
+                    VideoListBean lastBean = videoList.get(prevLastItemPosition);
                     if (lastBean.playStatus > 0) {
                         lastBean.playStatus = 0;
                         release();
                     }
                 }
+                prevFirstItemPosition = firstItemPosition;
+                prevLastItemPosition = lastItemPosition;
+                prevFistView = recyclerView.getChildAt(0);
+                prevLastView = recyclerView.getChildAt(itemCount - 1);
 
             }
         });
     }
 
     private void release() {
-        IjkVideoView videoView = videoListAdapter.getVideoView();
-        if (videoView != null) {
-            videoView.stopPlayback();
-            videoView.release(true);
+        IjkVideoView videoView = VideoViewManager.getInstance().getVideoView();
+        ViewParent viewParent = videoView.getParent();
+        if (viewParent instanceof FrameLayout) {
+            FrameLayout frameLayout = (FrameLayout) viewParent;
+            frameLayout.removeAllViews();
+
+            VideoViewManager.getInstance().stop();
         }
     }
 
