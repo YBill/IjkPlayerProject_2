@@ -3,7 +3,6 @@ package com.bill.ijkplayerproject_2.util;
 import android.app.Activity;
 import android.content.Intent;
 
-import com.bill.ijkplayerproject_2.activity.VideoListActivity;
 import com.bill.ijkplayerproject_2.test.AudioTestActivity;
 import com.bill.ijkplayerproject_2.test.VideoSettingActivity;
 import com.bill.ijkplayerproject_2.test.VideoTestActivity;
@@ -22,11 +21,6 @@ public class PageJumpUtil {
 
     public static void gotoVideoSettingActivity(Activity activity) {
         Intent intent = new Intent(activity, VideoSettingActivity.class);
-        activity.startActivity(intent);
-    }
-
-    public static void gotoVideoListActivity(Activity activity) {
-        Intent intent = new Intent(activity, VideoListActivity.class);
         activity.startActivity(intent);
     }
 

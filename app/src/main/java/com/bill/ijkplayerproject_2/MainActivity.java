@@ -22,7 +22,4 @@ public class MainActivity extends AppCompatActivity {
         PageJumpUtil.gotoVideoSettingActivity(this);
     }
 
-    public void handleVideoList(View view) {
-        PageJumpUtil.gotoVideoListActivity(this);
-    }
 }

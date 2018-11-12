@@ -25,6 +25,4 @@ dependencies {
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     implementation project(':ijkplayer-java')
     implementation project(':ijkplayer-exo')
-
-    implementation 'com.bill.commonwidget:commonwidget:1.0.1'
 }
